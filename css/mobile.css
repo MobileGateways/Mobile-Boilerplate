@@ -1,0 +1,84 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+#content {
+	padding: 0px 4px 0px 4px;
+	height: 100%;
+	background-color: #fff;
+}
+
+.list {
+    margin: 0;
+    padding: 0;
+}
+.list li {
+    display: block;
+    overflow: hidden;
+}
+
+
+li.card {
+    display: block;
+    padding: 2px 1px 2px 2px;
+	border-bottom: solid 1px #000;
+}
+
+
+.pull-right{float: right;}
+
+.logo {
+	padding-top: 2px;
+	margin: 0px;
+	float: right;
+}
+
+#loading {
+	text-align: center;
+	width: 100%;
+	top: 40%;
+	height: 320px;
+	display: none;
+	position: absolute;
+}
+
+/* =============================================================================
+   Base Button
+   ========================================================================== */
+
+.button {
+
+    background-color: #CCCCCC;
+    border: 1px solid #555555;
+    color: #333333;
+	display:inline-block;
+	font-family:arial;
+	font-size:12px;
+	font-weight:bold;
+	padding:4px 8px;
+	margin-right: 4px;
+	text-decoration:none;
+}
+
+/* =============================================================================
+   Button icons
+   ========================================================================== */
+
+.button.icon:before {
+    content: "";
+    position: relative;
+    float:right;
+    width: 16px;
+    height: 16px;
+    margin:  0 0.05em 0 0.55em;
+
+}
+
+
+.button.compose.icon:before {  background: url(icon/compose.png) 0 0px no-repeat; }
+.button.settings.icon:before {  background: url(icon/settings.png) 0 0px no-repeat; }
+.button.podcast.icon:before {  background: url(icon/podcast.png) 0 0px no-repeat; }
+.button.play.icon:before {  background: url(icon/play.png) 0 0px no-repeat; }
+.button.user.icon:before {  background: url(icon/user.png) 0 0px no-repeat; }
+.button.ellipsis.icon:before {  background: url(icon/ellipsis.png) 0 0px no-repeat; }
+.button.calendar.icon:before {  background: url(icon/calendar.png) 0 0px no-repeat; }
+.button.watch.icon:before {  background: url(icon/watch.png) 0 0px no-repeat; }

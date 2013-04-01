@@ -1,0 +1,122 @@
+/*
+Copyright (c) 2013 Austin Conner Group, http://theaustinconnergroup.com
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+
+App.UI = {
+	init:function(){
+		forge.display.orientation.forcePortrait();
+		// build topbar??? Have little control here will have to html
+		forge.topbar.setTint([15,75,25,255]); // #0F4B19
+		forge.topbar.setTitle('The Olive Grove');
+		//forge.topbar.addButton({
+		//	  //icon:'img/settings.png',
+		//	  text: "back",
+		//	  type: "back",
+		//	  position: "left",
+		//	  tint:[15,75,25,192],
+		//	  index: 0
+		//	}, function (button) {
+		//		button.onPressed.addListener(function () {
+		//			App.Router.navigate('about',{trigger: true, replace: true});
+		//		});
+		//});
+		forge.topbar.addButton({
+			  icon:'img/info.png',
+			  position: "right",
+			  tint:[15,75,25,192],
+			  index: 0
+			}, function (button) {
+				App.Router.navigate('about',{trigger: true, replace: true});
+
+		});
+		// build tabbar and add color
+		forge.tabbar.setTint([15,75,25,255]); // #0F4B19
+		forge.tabbar.setActiveTint([15,75,25,192]); // #0F4B19
+		// add Calendar button
+		forge.tabbar.addButton({
+			  icon:'img/CalendarDate.png',
+			  text: "Events",
+			  index: 0
+			}, function (button) {
+				button.setActive();
+				button.onPressed.addListener(function () {
+					App.Router.navigate('',{trigger: true, replace: true});
+				});
+			});
+		// add RSS button
+		forge.tabbar.addButton({
+			  icon:'img/RSS.png',
+			  text: "Latest",
+			  index: 1
+		}, function (button) {
+			button.onPressed.addListener(function () {
+				App.Router.navigate('rss',{trigger: true, replace: true});
+			});
+		});
+		//// add Photo button
+		//forge.tabbar.addButton({
+		//	  icon:'img/Photo.png',
+		//	  text: "Photos",
+		//	  index: 2
+		//}, function (button) {
+		//	button.onPressed.addListener(function () {
+		//		App.Router.navigate('album',{trigger: true, replace: true});
+		//	});
+		//});
+		//// add Video button
+		//forge.tabbar.addButton({
+		//	  icon:'img/Movie.png',
+		//	  text: "Videos",
+		//	  index: 3
+		//}, function (button) {
+		//	button.onPressed.addListener(function () {
+		//		App.Router.navigate('video',{trigger: true, replace: true});
+		//	});
+		//});
+		// add Podcast button
+		forge.tabbar.addButton({
+			  icon:'img/Earphones.png',
+			  text: "Podcast",
+			  index: 4
+		}, function (button) {
+			button.onPressed.addListener(function () {
+				App.Router.navigate('podcast',{trigger: true, replace: true});
+			});
+		});
+
+	},
+
+	error:function(msg){
+		//forge.topbar.setTint([15,75,25,255]); // #0F4B19
+		//App.Router.navigate('error',{trigger: true, replace: true});
+		//forge.topbar.setTitle('Error');
+		// Disable buttons?
+		// call error
+		var pageView = new App.Views.ErrorView( { message: msg } );
+	},
+	loading: function() {
+		$("#content").empty();
+		$("#splash").show();
+	},
+	doneLoading: function(){
+		$("#splash").hide();
+		App.UI.scrollTop();
+	},
+
+	scrollTop: function() {
+		setTimeout(function () {
+			document.body.scrollTop = 0;
+		}, 0);
+	}
+
+
+};

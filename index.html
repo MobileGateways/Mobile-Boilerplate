@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Backbone.js 99Mobile</title>
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/mobile.css">
+    </head>
+    <body>
+	<div id="splash">
+		<span><img id="loading" src="img/indicator.gif"/>Loading...</span>
+	</div>
+	<div id="content">
+
+	</div>
+
+<!-- Templates -->
+<script id="feeds" type="text/template">
+	<ul id="mainList" class="list">
+		{{ _(feeds).each(function(feed) { }}
+			<li class="list_view">
+				<h2>{{= feed.get('title') }}</h2>
+				<h3>{{= moment(feed.get('post_date').date).format('LL') }}
+			</li>
+		{{ }); }}
+	</ul>
+</script>
+
+
+
+<script type="text/template" id="about">
+	<div>
+	<img class="logo" src="img/logo.png" />
+	<p>We exist to Worship with passion, share Christ's love, and grow in faith and obedience...</p>
+
+	<p>Olive Grove Church <br/>29734 Nuevo Road<br/>Nuevo, Ca 92567<br/>
+    <a href="tel:9087355252">951-928-2052</a></p>
+
+	<a href="mailto:paryer@olivegrovechurch.org" class="button icon compose">Paryer Request</a>
+
+	<p><a href="mailto:info@olivegrovechurch.org">info@olivegrovechurch.org</a></p>
+
+	<p><a target="_new" href="http://www.olivegrovechurch.org">www.olivegrovechurch.org</a></p>
+
+	<p>Version {{= version }}</p>
+	<img src="img/by-nc-sa.png" /><p>This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/.</p>
+	</div>
+</script>
+
+<script type="text/template" id="error">
+	<div class="error"><h1>Oops! Error</h1>
+	<p>Unfortunately an error has occurred.  Sometimes this indicates a poor network connection.
+	Please try again later. If the error persists, email the developer listed under
+	<a href="#about">About</a>.</p><p>Error Details:</p><p>{{= message }}</p></div>
+</script>
+
+</body>
+
+	<!-- Libaries -->
+	<script src="js/lib/zepto.min.js"></script>
+	<script src="js/lib/underscore-min.js"></script>
+	<script src="js/lib/backbone-min.js"></script>
+	<script src="js/lib/moment.min.js"></script>
+	<!-- Application -->
+	<script src="js/app.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/utility.js"></script>
+	<script src="js/controllers/routes.js"></script>
+	<!-- Models -->
+	<script src="js/models/feeds.js"></script>
+	<!-- Views -->
+	<script src="js/views/ui.js"></script>
+	<script src="js/views/feed.js"></script>
+	<!-- RUN -->
+	<script type="text/javascript">
+
+		if (!$){$ = Zepto}; //zepto fix
+		// startup
+		$(App.init);
+	</script>
+
+</html>

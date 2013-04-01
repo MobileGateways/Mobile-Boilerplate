@@ -1,0 +1,108 @@
+/*
+Copyright (c) 2013 Austin Conner Group, http://theaustinconnergroup.com
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+
+App.Views.AboutView = Backbone.View.extend({
+  el: '#content',
+
+  logo: null,
+
+  initialize: function(options){
+    _.bindAll(this, 'render');
+
+    this.render();
+  },
+
+  render: function(){
+
+    forge.tabbar.setInactive(function() {}, function(err) {});
+
+    var params = { version: App.Config.Version };
+
+    var template = _.template($("#about").html(), params);
+
+
+    $(this.el).unbind().html(template).show();
+  }
+});
+
+App.Views.RequestsView = Backbone.View.extend({
+  el: '#content',
+
+  logo: null,
+
+  initialize: function(options){
+    _.bindAll(this, 'render');
+
+    this.render();
+  },
+
+  render: function(){
+
+    //forge.tabbar.setInactive(function() {}, function(err) {});
+
+    var params = { version: App.Config.Version };
+
+    var template = _.template($("#requests").html(), params);
+
+
+    $(this.el).unbind().html(template).show();
+  }
+});
+
+App.Views.ErrorView = Backbone.View.extend({
+  el: '#content',
+
+  logo: null,
+
+  initialize: function(options){
+    _.bindAll(this, 'render');
+
+    this.render();
+  },
+
+  render: function(){
+
+    forge.tabbar.setInactive(function() {}, function(err) {});
+
+    var params = { version: App.Config.Version };
+
+    var template = _.template($("#error").html(), params);
+
+
+    $(this.el).unbind().html(template).show();
+  }
+});
+
+App.Views.ConnectionView = Backbone.View.extend({
+  el: '#content',
+
+  logo: null,
+
+  initialize: function(options){
+    _.bindAll(this, 'render');
+
+    this.render();
+  },
+
+  render: function(){
+
+    forge.tabbar.setInactive(function() {}, function(err) {});
+
+    var params = { version: App.Config.Version };
+
+    var template = _.template($("#connection").html(), params);
+
+
+    $(this.el).unbind().html(template).show();
+  }
+});

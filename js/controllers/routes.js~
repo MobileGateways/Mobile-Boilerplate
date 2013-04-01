@@ -1,0 +1,129 @@
+/*
+Copyright (c) 2013 Austin Conner Group, http://theaustinconnergroup.com
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/**
+ * App route controller
+ *
+ */
+
+App.Routes = Backbone.Router.extend({
+
+	routes: {
+        "" : "index",         		// entry point: no hash fragment or #
+        "about" : "about",         		// entry point: no hash fragment or #
+        "requests": "requests",
+        "settings" : "settings",         		// entry point: no hash fragment or #
+		"podcast": "podcasts",
+		"rss": "rssfeed",
+		"album": "albums",
+		"photos/:album_id": "album",
+		"video": "videos"          // viemo or youtube
+	},
+
+
+	// main and initial route calendar of events
+	index: function() {
+		cacheEvents = new App.Collections.Calendar();
+		new App.Views.CalendarCollectionView({collection: cacheEvents})
+		forge.prefs.get('calendar.cache', function(value){
+			if(value == null){
+				cacheEvents.fetch();
+			}
+			else{
+				cacheEvents.reset(value);
+			}
+		});
+	},
+	//
+	about: function() {
+        var pageView = new App.Views.AboutView();
+	},
+	//
+	requests: function() {
+        var pageView = new App.Views.RequestsView();
+	},
+    //  of events
+	settings: function() {
+
+	},
+
+    podcasts: function(){
+		cachePodcast = new App.Collections.Podcasts();
+		new App.Views.PodcastCollectionView({collection: cachePodcast})
+		forge.prefs.get('podcast.cache', function(value){
+			if(value == null){
+				cachePodcast.fetch();
+			}
+			else{
+				cachePodcast.reset(value);
+			}
+		});
+    },
+
+	rssfeed: function() {
+		cacheFeed = new App.Collections.Feeds();
+		new App.Views.FeedCollectionView({collection: cacheFeed})
+		forge.prefs.get('feed.cache', function(value){
+			if(value == null){
+				cacheFeed.fetch();
+			}
+			else{
+				cacheFeed.reset(value);
+			}
+		});
+
+	},
+
+	albums: function() {
+
+		cacheAlbum = new App.Collections.Albums();
+		new App.Views.AlbumCollectionView({collection: cacheAlbum})
+		forge.prefs.get('album.cache', function(value){
+			if(value == null){
+				cacheAlbum.fetch();
+			}
+			else{
+				cacheAlbum.reset(value);
+			}
+		});
+
+	},
+	photos: function(id) {
+
+		cachePhoto = new App.Collections.Photos();
+		new App.Views.PhotosCollectionView({collection: cachePhoto})
+		forge.prefs.get('photo.cache', function(value){
+			if(value == null){
+				cachePhoto.fetch({album_id: id});
+			}
+			else{
+				cachePhoto.reset(value);
+			}
+		});
+
+	},
+
+	videos: function() {
+		cacheVideo = new App.Collections.Videos();
+		new App.Views.VideoCollectionView({collection: cacheVideo})
+		forge.prefs.get('video.cache', function(value){
+			if(value == null){
+				cacheVideo.fetch();
+			}
+			else{
+				cacheVideo.reset(value);
+			}
+		});
+
+
+	}
+});

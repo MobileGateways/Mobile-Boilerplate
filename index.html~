@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Backbone.js 99Mobile</title>
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/mobile.css">
+        <link rel="stylesheet" href="css/buttons.css">
+    </head>
+    <body>
+	<div id="splash">
+		<span><img id="loading" src="img/indicator.gif"/>Loading...</span>
+		<img src="img/splash/320x480.png"/>
+	</div>
+	<div id="content">
+
+	</div>
+
+<!-- Templates -->
+<script id="podcasts" type="text/template">
+	<ul id="mainList" class="list">
+		{{ _(podcasts).each(function(podcast) { }}
+			<li class="card">
+				<h2>{{= podcast.get('title') }}</h2>
+				<small>{{= podcast.get('duration')}}</small>
+				<p class="desc">{{= podcast.get('description') }}</p>
+				<p><span style="float:right;"  id="{{= podcast.get('enclosure') }}" class="button icon podcast pull-right">Listen</span></p>
+			</li>
+
+		{{ }); }}
+	</ul>
+</script>
+
+<script id="audioPlayer" type="text/template">
+	<video src="{= podcast.get('enclosure') }}" onclick="this.play();"></video>
+
+</script>
+
+
+<script id="events" type="text/template">
+	<ul id="mainList" class="list">
+		{{ _(events).each(function(event) { }}
+			<li class="card">
+				<h2>{{= event.get('title') }}</h2>
+				<h3>{{= moment(event.get('eventDate')).format('LL') }}
+				<br/><small>{{= moment(event.get('startTime')).format('LT') }} - {{= moment(event.get('endTime')).format('LT') }}</small></h3>
+				<span style="float:right;" id="{{= event.get('id') }}" class="button icon calendar pull-right">Add to my Calendar</span>
+			</li>
+		{{ }); }}
+	</ul>
+</script>
+
+<script id="videos" type="text/template">
+	<ul id="mainList" class="list">
+		{{ _(videos).each(function(video) { }}
+
+			<li class="card">
+				<h2>{{= video.get('title') }}</h2>
+				<small>{{= video.get('duration')}}</small>
+				<p>{{= video.get('description') }}</p>
+				<span style="float:right;"  id="{{= video.get('url') }}" class="openVideo">Watch</span>
+			</li>
+
+		{{ }); }}
+	</ul>
+</script>
+
+<script id="feeds" type="text/template">
+	<ul id="mainList" class="list">
+		{{ _(feeds).each(function(feed) { }}
+			<li class="card">
+				<h2>{{= feed.get('title') }}</h2>
+				<p>{{= feed.get('description') }}</p>
+				<span style="float:right;"  id="{{= feed.get('url') }}" class="button icon ellipsis pull-right ">Read More</span>
+			</li>
+
+		{{ }); }}
+	</ul>
+</script>
+<script type="text/template" id ="albums">
+	<ul id="mainList" class="list">
+		{{ _(albums).each(function(album) { }}
+			{{ if (album.get("name") != "Untitled Album") { }}
+
+				<li id="{{= album.get('id') }}">
+				<div>
+					<div class="album" id="{{= album.get("id") }}" >
+						<img class="albumItem" src="https://graph.facebook.com/{{= album.get('cover_photo') }}/picture" />
+					</div>
+					<div class="albumInfo">
+						<b>{{= album.get("name") }}</b>
+						<div class="desc">{{= album.get("created_time") }}</div>
+					</div>
+				</div>
+				</li>
+			{{ } }}
+		{{ }); }}
+	</ul>
+</script>
+
+<script type="text/template" id ="photos">
+	<h1>{{= albumName }}</h1>
+	<p>{{= albumDesc }}</p>
+
+	{{ _(photos).each(function(photo) { }}
+
+		<div id="{{= photo.get("id") }}" class="photo" style="background-image: url({{= photo.get("source") }})"></div>
+
+	{{ }); }}
+
+</script>
+<script type="text/template" id="about">
+	<div>
+	<img class="logo" src="img/logo.png" />
+	<p>We exist to Worship with passion, share Christ's love, and grow in faith and obedience...</p>
+
+	<p>Olive Grove Church <br/>29734 Nuevo Road<br/>Nuevo, Ca 92567<br/>
+    <a href="tel:9087355252">951-928-2052</a></p>
+
+	<a href="mailto:paryer@olivegrovechurch.org" class="button icon compose">Paryer Request</a>
+
+	<p><a href="mailto:info@olivegrovechurch.org">info@olivegrovechurch.org</a></p>
+
+	<p><a target="_new" href="http://www.olivegrovechurch.org">www.olivegrovechurch.org</a></p>
+
+	<p>Version {{= version }}</p>
+	<img src="img/by-nc-sa.png" /><p>This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/.</p>
+	</div>
+</script>
+<script type="text/template" id="requests">
+	<div class="form"><h1>Paryer Request</h1>
+	<form>
+	<fieldset>
+	<div>
+	<label>Who:</label>
+	<input type="text" id="who" />
+	</div>
+	<div>
+	<label>For:</label>
+	<input type="text" id="for" />
+	</div>
+	<div>
+	<label>Keep confidental</label><input type="checkbox" id="confidental" />
+	<span id="submit">Submit Request</span>
+	</div>
+	</fieldset>
+
+	</form>
+	<p>Submit a payer request.</p>
+	<p></p></div>
+</script>
+
+
+<script type="text/template" id="disconnected">
+	<div class="error"><h1>Oops! Disconnected</h1>
+	<p>We were unable to detect a network connection.</p>
+	<p>You must be connected to the internet in order to use the Olive Grove app.</p></div>
+</script>
+<script type="text/template" id="error">
+	<div class="error"><h1>Oops! Error</h1>
+	<p>Unfortunately an error has occurred.  Sometimes this indicates a poor network connection.
+	Please try again later. If the error persists, email the developer listed under
+	<a href="#about">About</a>.</p><p>Error Details:</p><p>{{= message }}</p></div>
+</script>
+
+</body>
+
+	<!-- Libaries -->
+	<script src="js/lib/zepto.min.js"></script>
+	<script src="js/lib/underscore-min.js"></script>
+	<script src="js/lib/backbone-min.js"></script>
+	<script src="js/lib/moment.min.js"></script>
+	<!-- Application -->
+	<script src="js/app.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/utility.js"></script>
+	<script src="js/controllers/routes.js"></script>
+	<!-- Models -->
+	<script src="js/models/events.js"></script>
+	<script src="js/models/podcasts.js"></script>
+	<script src="js/models/videos.js"></script>
+	<script src="js/models/photos.js"></script>
+	<script src="js/models/feeds.js"></script>
+	<!-- Views -->
+	<script src="js/views/ui.js"></script>
+	<script src="js/views/calendar.js"></script>
+	<script src="js/views/podcast.js"></script>
+	<script src="js/views/album.js"></script>
+	<script src="js/views/video.js"></script>
+	<script src="js/views/feed.js"></script>
+	<script src="js/views/about.js"></script>
+	<!-- RUN -->
+	<script type="text/javascript">
+
+		if (!$){$ = Zepto}; //zepto fix
+		// startup
+		$(App.init);
+	</script>
+
+</html>

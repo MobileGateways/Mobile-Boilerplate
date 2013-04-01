@@ -1,0 +1,83 @@
+/*
+Copyright (c) 2013 Austin Conner Group, http://theaustinconnergroup.com
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+App.Utils = {
+	click_or_tap: function(obj) {
+		//for property in obj, add "click " to property and use original value
+		var new_obj = {};
+		for(var property in obj) {
+			if (obj.hasOwnProperty(property)) {
+				if (forge.is.mobile()) {
+					new_obj["tap " + property] = obj[property];
+				}
+				else {
+					new_obj["click " + property] = obj[property];
+				}
+			}
+		}
+		return new_obj;
+	},
+
+
+   CheckConnection: function() {
+		if(forge.is.connection.connected()) {
+			return true;
+		} else {
+			App.Router.navigate('noconnection', { trigger: true });
+			return false;
+		}
+	},
+   // error logging and reporting
+   errors:function(e){
+	   App.UI.error();
+	   $( '#page' ).html('Oop! Somthing went wrong.');
+		forge.logging.info(e);
+		return;
+	},
+
+
+	checkCache:function(){
+		// Check Cache
+		forge.prefs.get('cache', function(data){
+			if(data == null){
+				// set initial expires dates
+				var cache = {calendar: moment().add('days',1).valueOf(),
+							podcast: moment().add('days',7).valueOf(),
+							video: moment().add('days',7).valueOf(),
+							feed: moment().add('days',1).valueOf(),
+							album: moment().add('days',30).valueOf(),
+							photo: moment().add('days',7).valueOf()};
+				forge.prefs.set('cache', cache, function(){forge.logging.info('cache set')}, App.Utils.errors);
+			}
+			for (var key in data) {
+				if(data[key] < App.Today.valueOf()){
+					forge.prefs.clear(key+'.cache'); // clear the cached data
+					data[key] = App.Today.add('days',App.Config.CacheResets[key]).valueOf(); // reset expires
+				}
+			}
+			// save new expires
+			forge.prefs.set('cache', data);
+
+		}, App.Utils.errors);
+	},
+
+	clearCache:function(){
+
+		forge.prefs.clear('calendar.cache'); // clear the cached data
+		forge.prefs.clear('podcast.cache'); // clear the cached data
+		forge.prefs.clear('feed.cache'); // clear the cached data
+
+		// reset expires
+		forge.prefs.clear('cache');
+		App.Utils.checkCache();
+	}
+
+};

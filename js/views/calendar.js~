@@ -1,0 +1,70 @@
+/*
+Copyright (c) 2013 Austin Conner Group, http://theaustinconnergroup.com
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/**
+ * Podcast view for App.Models.Podcasts (Collection)
+ *
+ */
+App.Views.CalendarCollectionView = Backbone.View.extend({
+  el: '#content',
+  collection: null,
+  icon: null,
+
+  initialize: function(options){
+    _.bind(this, 'render');
+    this.listenTo(this.collection, 'reset', this.render);
+
+    //this.collection.bind('reset', this.render, this); // bind the reset event to render
+    App.UI.loading();
+
+  },
+
+   render: function(){
+    App.UI.doneLoading();
+
+
+    var params = { events: this.collection.models };
+
+    var template = _.template($("#events").html(), params);
+    $(this.el).html(template);
+    return this;
+  },
+   events: {
+    "click span.calendar": "handleTap"
+  },
+  handleTap: function (e) {
+    e.preventDefault();
+
+    var id =  $(e.target).attr("id");
+
+        event = this.collection.get(id);
+
+        var startTime = new Date(event.get('startTime'));
+        var endTime = new Date(event.get('endTime'));
+
+        forge.calendar.addEvent({
+            title: event.get('title'),// + (event.get('location') !== '') ? ' @'+event.get('location'):'',
+            description: 'Olive Grove Church - '+event.get('title'),
+            start: startTime,
+            end: endTime,
+            location:event.get('location'),
+            allday:false
+        }, function () {
+            //
+
+        }, function (content) {
+            forge.logging.info(content);
+            alert("error");
+
+        });
+    }
+});
